@@ -57,3 +57,17 @@ def newrap(f, cfv=0,min_value = 1e-8, max_num_iter=10000):
             break
 
     return [c,i]
+
+def secant(f, x1=-1e3, x0=1e3,min_value = 1e-8, max_num_iter=10000):
+    i = 0 
+    c1 = x1
+    c0 = x0
+    for i in range(max_num_iter):
+        var = c1
+        c1 = c1 - f(c0)*(c1-c0)/(f(c1)-f(c0))
+        c0 = var
+
+        if abs(f(x1)) < min_value:
+            break
+
+    return [c1,i]
