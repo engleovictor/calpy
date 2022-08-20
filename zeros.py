@@ -4,7 +4,7 @@
 
 m = abs
 
-def secan(f, x1=-1e3, x0=1e3,min_value = 1e-8, max_num_iter=10000):
+def secant(f, x1=-1e3, x0=1e3,min_value = 1e-8, max_num_iter=10000):
     i = 0 
     c1 = x1
     c0 = x0
@@ -71,4 +71,3 @@ def newrap(f, cfv=0,min_value = 1e-8, max_num_iter=10000):
             break
 
     return [c,i]
-

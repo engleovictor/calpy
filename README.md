@@ -24,3 +24,15 @@ Helps us to find equations roots.
 
     # x is the value
     # i number of iterations (has a max value).
+
+### Linsys
+    from calpy import linsys
+
+    table1 = [
+        [1,2],
+        [5,7]
+    ]
+
+    print(linsys.det(table1))
+
+    #it will print '-3'
