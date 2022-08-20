@@ -67,7 +67,7 @@ def secant(f, x1=-1e3, x0=1e3,min_value = 1e-8, max_num_iter=10000):
         c1 = c1 - f(c0)*(c1-c0)/(f(c1)-f(c0))
         c0 = var
 
-        if abs(f(x1)) < min_value:
+        if abs(f(c1)) < min_value:
             break
 
     return [c1,i]
