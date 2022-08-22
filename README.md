@@ -26,6 +26,8 @@ Helps us to find equations roots.
     # i number of iterations (has a max value).
 
 ### Linsys
+Helps us to calculate determinants and solve equations(soon)
+#### Example
     from calpy import linsys
 
     table1 = [
