@@ -92,12 +92,3 @@ def gauss(table):
     next_roots.reverse()
 
     return next_roots
-
-
-table = [
-    [1,2,7,4],
-    [5,7,22,12],
-    [42,22,5,107]
-]
-
-print(gauss(table))
