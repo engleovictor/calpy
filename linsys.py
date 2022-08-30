@@ -1,94 +1,98 @@
-#   Feito por Léo
-#   20/08/2022
-#   Lib feita por cálculo numérico
+## Feito por Léo
+## 20/08/22 Mod 29/08/22
+## Lib feita para Calculo Numérico
 
-import numpy as np
+def determinant(A):
+    nl = len(A)
+    nc = len(A[0])
+    if nl != nc:
+        print('This Matrix isn\'t NxN, but we will calculate...')
+    sm = 0
+    for j in range(nl):
+        pd = 1
+        for i in range(nl):
+            pd *= A[i][(i+j)%nl]
+        print(pd)
+        sm += pd
 
-def det(table):
-    table_np = np.array(table)
+    for j in range(nl):
+        pd = 1
+        for i in range(nl):
+            pd *= A[i][((nl-1-i)+j)%nl]   
+        print(pd)
+        sm -= pd
 
-    n_lines = len(table_np)
+    return sm
 
-    n_colum = len(table_np[0])
 
-    if n_lines!=n_colum:
-        print('This isn\'t a NxN matrix but we will adapt :)')
+def GaussElimination(A):
+    import numpy as np
+    A = np.array(A)
 
-    for i in range(n_lines):
-        if table_np[i][i] != 0:
-            pivot = table_np[i][i]
+    nl = len(A)
+
+    nc = len(A[0])
+
+    if nl>nc:
+        exit("Nao posso resolver isso....")
+
+    for i in range(nl):
+        if A[i][i] !=0:
+            pivot = A[i][i]
         else:
-            for j in range(i+1,n_lines):
-                if table_np[j][i]:
-                    ans = list(table_np[i])
-                    
-                    table_np[i] = -table_np[j]
-                    
-                    table_np[j] = np.array(ans)
-
-                    pivot = table_np[i][i]
-
+            for j in range(i+1,nl):
+                if A[j][i]:
+                    ans = list(A[i])
+                    A[i] = -A[j]
+                    A[j] = np.array(ans)
+                    pivot = A[i][i]
                     break
 
-        for j in range(i+1,n_lines):
-            if not table_np[j][i]:
+        for j in range(i+1,nl):
+            if not A[j][i]:
                 continue
             else:
-                table_np[j] = table_np[j]*pivot - table_np[j][i]*table_np[i]
-
-    return table_np[n_lines-1][n_lines-1]
-
-
-def gauss(table):
-    table_np = np.array(table)
-
-    n_lines = len(table_np)
-
-    n_colum = len(table_np[0])
-
-    if n_lines+1!=n_colum:
-        exit("We can't solve this... Please make sure this is right.")
-
-    for i in range(n_lines):
-        if table_np[i][i] !=0:
-            pivot = table_np[i][i]
-        else:
-
-            for j in range(i+1,n_lines):
-                if table_np[j][i]:
-                    ans = list(table_np[i])
-                    
-                    table_np[i] = -table_np[j]
-                    
-                    table_np[j] = np.array(ans)
-
-                    pivot = table_np[i][i]
-
-                    break
-
-        for j in range(i+1,n_lines):
-            if not table_np[j][i]:
-                continue
-            else:
-                table_np[j] = table_np[j]*pivot - table_np[j][i]*table_np[i]
+                A[j] = A[j]*pivot - A[j][i]*A[i]
             
-    print(table_np)
+    if A[nl-1][nl-1] == 0:
+        if A[nl-1][nc-1] == 0:
+            exit('Esse sistema possui raizes indeterminadas!!')
 
+        else:
+            exit('Esse sistema não possui raizes!!')
+    
     #implementação da parte que pegar as raizes.
 
-    next_roots = list()
+    nr = list()
     
-    for i in range(n_lines):
-        soma = 0
-        root = 0
+    for i in range(nl):
+        sm = 0
+        rt = 0
         for j in range(i):
-            soma += next_roots[j]*table_np[n_lines-1-i][n_colum-2-j]
+            sm += nr[j]*A[nl-1-i][nc-2-j]
 
-        if table_np[n_lines-1-i][n_lines-1-i]:
-            root =  (table_np[n_lines-1-i][n_colum-1] - soma)/table_np[n_lines-1-i][n_lines-1-i]
+        if A[nl-1-i][nl-1-i]:
+            rt =  (A[nl-1-i][nc-1] - sm)/A[nl-1-i][nl-1-i]
 
-        next_roots.append(root)
+        nr.append(rt)
 
-    next_roots.reverse()
+    nr.reverse()
 
-    return next_roots
+    return nr
+
+def LUdecomposition(A):
+    import numpy as np
+    
+    A = np.array(A) 
+    nl = np.shape(A)[0]
+    L = np.eye(nl)
+    
+    for k in np.arange(nl):
+        L[k+1:nl,k] = A[k+1:nl,k]/A[k,k]        
+        for l in np.arange(k+1,nl):
+            A[l,:] = A[l,:] - np.dot((L[l,k]),A[k,:])
+        
+    U = A
+    
+    return [L, U]
+
