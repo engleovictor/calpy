@@ -2,34 +2,11 @@
 ## 20/08/22 Mod 29/08/22
 ## Lib feita para Calculo Numérico
 
-def determinant(A):
-    nl = len(A)
-    nc = len(A[0])
-    if nl != nc:
-        print('This Matrix isn\'t NxN, but we will calculate...')
-    sm = 0
-    for j in range(nl):
-        pd = 1
-        for i in range(nl):
-            pd *= A[i][(i+j)%nl]
-        print(pd)
-        sm += pd
-
-    for j in range(nl):
-        pd = 1
-        for i in range(nl):
-            pd *= A[i][((nl-1-i)+j)%nl]   
-        print(pd)
-        sm -= pd
-
-    return sm
-
-
 def GaussElimination(A):
     import numpy as np
     A = np.array(A)
 
-    nl = len(A)
+    nl = len(A) 
 
     nc = len(A[0])
 
@@ -95,4 +72,21 @@ def LUdecomposition(A):
     U = A
     
     return [L, U]
+
+
+def gaussjacobi(A,b,x0,kmax):
+    import numpy as np
+    for i,line in enumerate(A):
+        b[i] /= line[i]
+        line /= line[i]
+    M = A - np.eye(len(A))
+    print(M)
+    print(b)
+    for i in range(kmax):
+        x0 = b - M@x0
+        if np.linalg.norm(x0) < 1e-3:
+            break
+    return [x0,kmax]
+
+
 
